@@ -1,0 +1,1 @@
+start /b .\dist\main\main.exe

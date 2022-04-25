@@ -1,0 +1,73 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundation for Sites</title>
+    <link rel="stylesheet" href="/static/css/foundation.css">
+    <link rel="stylesheet" href="/static/css/app.css">
+  </head>
+<body>
+
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="large-12 cell">
+          <h1>Настройки</h1>
+        </div>
+      </div>
+
+      <div class="grid-x grid-padding-x">
+        <div class="large-12 cell">
+          <div class="callout">
+            <form action="/uploadcsvdata/" enctype="multipart/form-data" method="post" >
+                <input name="files" type="file" multiple>
+                <input type="submit">
+            </form>
+          </div>
+        </div>
+      </div>
+        <!--
+      <div class="grid-x grid-padding-x">
+        <div class="large-8 medium-8 cell">
+          <hr />
+          <h5>Выберите файл для автозаполнения:</h5>
+            <div class="large-12 cell">
+            <div class="callout">
+                <label>Select Box</label>
+                <select>
+                  {% for item in file_list %}
+                  <option value="{{item}}">{{item}}</option>
+                  {% endfor %}
+                </select>
+            </div>
+            </div>
+
+        -->
+          <h5>Cледующая запись автозаполнения:</h5>
+            <form action="/updnext/"  method="post" onsubmit="return false;">
+            <div class="grid-x grid-padding-x">
+              <div class="large-12 cell">
+                <label>Выбор:</label>
+                <select name="select">
+                  {% for item in data_dict %}
+                  <option value="{{item['name']}}">{{item['name']}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <input type="submit" class="button" value="Сохранить">
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+
+    <script src="/static/script.js"></script>
+    <script src="/static/js/vendor/jquery.js"></script>
+    <script src="/static/js/vendor/what-input.js"></script>
+    <script src="/static/js/vendor/foundation.js"></script>
+    <script src="/static/js/app.js"></script>
+  </body>
+</html>
