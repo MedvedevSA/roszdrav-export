@@ -29,13 +29,13 @@
       </div>
 
 
+      <!--
       <form id="formElem">
         <input type="text" name="name" value="John">
         <input type="text" name="surname" value="Smith">
         <input type="submit">
       </form>
 
-        <!--
       <div class="grid-x grid-padding-x">
         <div class="large-8 medium-8 cell">
           <hr />
@@ -53,13 +53,15 @@
 
         -->
           <h5>Cледующая запись автозаполнения:</h5>
-            <form action="/updnext/"  method="post" onsubmit="return false;">
+            <form id="formSelectNext">
             <div class="grid-x grid-padding-x">
               <div class="large-12 cell">
                 <label>Выбор:</label>
                 <select name="select">
-                  {% for item in data_dict %}
-                  <option value="{{item['name']}}">{{item['name']}}</option>
+                  {% for id, item in enumirate(data_dict ,1 ) %}
+                  <option value="{{"{}:{}".format(id, item['name']) }}">
+                        {{"{}:{}".format(id, item['name'])}}
+                  </option>
                   {% endfor %}
                 </select>
               </div>

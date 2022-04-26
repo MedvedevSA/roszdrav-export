@@ -3,6 +3,7 @@ import uvicorn
 
 import asyncio
 
+import re
 import tkinter as tk
 import tkinter.filedialog as fd
 
@@ -14,7 +15,6 @@ from fastapi import File, UploadFile, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
-
 
 
 from utils import  import_1c
@@ -75,22 +75,30 @@ async def config_page(request: Request):
     #request
     data_dict = mem.data.copy()
     #data_dict = []
-
-    return templates.TemplateResponse("index.html", {"request": request, 'data_dict' : data_dict})
+    
+    return templates.TemplateResponse(
+        "index.html", {
+            "request": request,
+            'data_dict' : data_dict,
+            'enumirate' : enumerate
+        })
 
 
 @app.post("/testpost/")
-async def updnext(name: str = Form(...), surname: str = Form(...)):
-    return name    
+async def testpost(select: str = Form(...)):
+
+    #(id):(наименование детали)
+    pattern = r'(\d{1,3}):([A-Z]{2}[-.0-9A-ZА-Я]{1,})'
+    pattern = re.compile(pattern)
+    id , name = pattern.findall(select)[0]
+
+    return {'id':id, "name":name}
+
 
 @app.post("/updnext/")
 async def updnext(select: str = Form(...)):
     print(select)
     return select    
-    #with open(file.) as write_file:
-
-
-    #return {"file_sizes": [len(file) for file in files]}
 
 
 @app.post("/files/")
@@ -114,21 +122,6 @@ async def xlsx_upload_files(files: List[UploadFile], response_class=RedirectResp
     #return RedirectResponse('https://192.168.1.193:8000/config')
     return {"filenames": [file.filename for file in files]}
 
-'''
-@app.post("/uploadcsvdata/")
-async def create_upload_files(files: List[UploadFile], response_class=RedirectResponse):
-    for file in files:
-        contents = await file.read()
-        path_to_save = os.path.join("./uploads", "data.csv")
-
-        with open(path_to_save,'wb') as write_file:
-            write_file.write(contents)
-
-    mem.import_data(path_to_save)
-        
-    #return RedirectResponse('https://192.168.1.193:8000/config')
-    return {"filenames": [file.filename for file in files]}
-'''
 
 @app.post("/uploadfiles/")
 async def create_upload_files(files: List[UploadFile]):
