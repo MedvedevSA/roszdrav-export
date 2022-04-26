@@ -1,5 +1,6 @@
 import re
 import csv
+import pandas as pd
 
 import tkinter as tk
 import tkinter.filedialog as fd
@@ -27,11 +28,7 @@ def translit (word : str, dic : dict):
     return word
 
 def import_1c(file_name):
-    if(not file_name):
-        root = tk.Toplevel()
-        root.withdraw()
-        mb.showerror("Внимание","Не указан файл откуда выгружать.")
-        return
+
     # 01.01.01.01
     p1 = r'\d{2}.\d{2}.\d{2}.\d{2}'
     p1 = re.compile(p1)
@@ -50,8 +47,10 @@ def import_1c(file_name):
     p4 = r'(\d{2,3})[\s\S]*(\d{2}.\d{2}.\d{4})'
     p4 = re.compile(p4)
 
+    
+
+
     #file_name = '1c.csv'
-    arr = []
     with open(file_name, "r", encoding='utf-8') as f:
         sheet = csv.reader(f, delimiter=';')
         sheet = [ row for row in sheet]

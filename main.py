@@ -57,6 +57,11 @@ class Mem ():
             for el in data:
                 yield el
 
+    def import_xlsx_data(self, file_name):
+        self.data = import_1c(file_name)
+        self.el_data = self.gen(self.data)
+        self.imported = True
+
     def import_data(self, file_name):
         self.data = import_1c(file_name)
         self.el_data = self.gen(self.data)
@@ -92,10 +97,21 @@ async def updnext(select: str = Form(...)):
 async def create_files(files: List[bytes] = File(...)):
     
     #with open(file.) as write_file:
-
-
     return {"file_sizes": [len(file) for file in files]}
 
+@app.post("/uploadxlsxdata/")
+async def xlsx_upload_files(files: List[UploadFile], response_class=RedirectResponse):
+    for file in files:
+        contents = await file.read()
+        path_to_save = os.path.join("./uploads", "data.xlsx")
+
+        with open(path_to_save,'wb') as write_file:
+            write_file.write(contents)
+
+    mem.import_data(path_to_save)
+        
+    #return RedirectResponse('https://192.168.1.193:8000/config')
+    return {"filenames": [file.filename for file in files]}
 
 @app.post("/uploadcsvdata/")
 async def create_upload_files(files: List[UploadFile], response_class=RedirectResponse):
@@ -121,15 +137,6 @@ async def create_upload_files(files: List[UploadFile]):
             write_file.write(contents)
         
     return {"filenames": [file.filename for file in files]}
-
-
-#@app.get("/zdrav/set-csv")
-#def set_csv():
-    #root = tk.Tk()
-    #root.withdraw()
-    #file = fd.askopenfilename(title="Выбрать файл", initialdir="/", filetypes=[('CSV','*.csv')])
-    #mem.import_data(file)
-    #return 
 
 @app.get("/zdrav")
 def zdrav():
