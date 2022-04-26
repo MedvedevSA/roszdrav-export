@@ -49,14 +49,23 @@ def import_1c(file_name):
 
     
 
+    df = pd.read_excel(file_name)
+    df = df.fillna("")
+
+    df_list = list()
+    for col in df :
+        df_list.append(df[col].to_list())
+    df_list = list(map(list, zip(*df_list)))
+
+    sheet = df_list
 
     #file_name = '1c.csv'
-    with open(file_name, "r", encoding='utf-8') as f:
-        sheet = csv.reader(f, delimiter=';')
-        sheet = [ row for row in sheet]
+    #with open(file_name, "r", encoding='utf-8') as f:
+        #sheet = csv.reader(f, delimiter=';')
+        #sheet = [ row for row in sheet]
 
 
-    del sheet[0:3]
+    del sheet[0:2]
 
     data = list()
     el = dict()
@@ -75,13 +84,12 @@ def import_1c(file_name):
             elif 'id_no' in el.keys():
                 data.append(el.copy())
                 no, dt = p4.findall(row[0])[0]
+
                 try :
-                    quantity = str(
-                        int(
-                            row[2].split('.')[0]
-                    ))
+                    quantity =str(int(row[2]))
                 except:
                     quantity = row[2]
+
                 el['quantity'] = quantity
                 el['id_no'] = no
                 el['id_dt'] = dt
@@ -90,12 +98,10 @@ def import_1c(file_name):
                 no, dt = p4.findall(row[0])[0]
 
                 try :
-                    quantity = str(
-                        int(
-                            row[2].split('.')[0]
-                    ))
+                    quantity =str(int(row[2]))
                 except:
                     quantity = row[2]
+
                 el['quantity'] = quantity
                 el['id_no'] = no
                 el['id_dt'] = dt

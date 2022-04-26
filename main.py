@@ -44,7 +44,7 @@ app.add_middleware(
 class Mem ():
     def __init__(self) -> None:
         self.csv_file_name = None
-        self.data = import_1c('./uploads/data.csv')
+        self.data = import_1c('./uploads/data.xlsx')
         self.el_data = self.gen(self.data)
         self.imported = True
         pass
@@ -113,6 +113,7 @@ async def xlsx_upload_files(files: List[UploadFile], response_class=RedirectResp
     #return RedirectResponse('https://192.168.1.193:8000/config')
     return {"filenames": [file.filename for file in files]}
 
+'''
 @app.post("/uploadcsvdata/")
 async def create_upload_files(files: List[UploadFile], response_class=RedirectResponse):
     for file in files:
@@ -126,6 +127,7 @@ async def create_upload_files(files: List[UploadFile], response_class=RedirectRe
         
     #return RedirectResponse('https://192.168.1.193:8000/config')
     return {"filenames": [file.filename for file in files]}
+'''
 
 @app.post("/uploadfiles/")
 async def create_upload_files(files: List[UploadFile]):
