@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foundation for Sites</title>
+    <title>STOMUS</title>
     <link rel="stylesheet" href="/static/css/foundation.css">
     <link rel="stylesheet" href="/static/css/app.css">
   </head>
@@ -20,13 +20,21 @@
       <div class="grid-x grid-padding-x">
         <div class="large-12 cell">
           <div class="callout">
-            <form action="/uploadcsvdata/" enctype="multipart/form-data" method="post" >
-                <input name="files" type="file" multiple>
-                <input type="submit">
+            <form id="fileForm">
+              <input type="file" name="files" accept=".xlsx" multiple>
+              <input type="submit">
             </form>
           </div>
         </div>
       </div>
+
+
+      <form id="formElem">
+        <input type="text" name="name" value="John">
+        <input type="text" name="surname" value="Smith">
+        <input type="submit">
+      </form>
+
         <!--
       <div class="grid-x grid-padding-x">
         <div class="large-8 medium-8 cell">
