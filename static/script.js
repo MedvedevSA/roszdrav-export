@@ -22,7 +22,7 @@ formElem.onsubmit = async (e) => {
 formSelectNext.onsubmit = async (e) => {
     e.preventDefault();
 
-    let response = await fetch('/testpost/', {
+    let response = await fetch('/setid/', {
       method: 'POST',
       body: new FormData(formSelectNext)
     }).then(function(response){

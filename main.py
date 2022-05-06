@@ -48,6 +48,13 @@ class Mem ():
         self.el_data = self.gen(self.data)
         self.imported = True
         pass
+    def set_gen(self, id):
+        for i in range(id):
+            self.get_next()
+
+    def reset_gen(self):
+        self.el_data = self.gen(self.data)
+        return 
 
     def get_next(self):
         return next(self.el_data)
@@ -84,13 +91,16 @@ async def config_page(request: Request):
         })
 
 
-@app.post("/testpost/")
+@app.post("/setid/")
 async def testpost(select: str = Form(...)):
 
     #(id):(наименование детали)
     pattern = r'(\d{1,3}):([A-Z]{2}[-.0-9A-ZА-Я]{1,})'
     pattern = re.compile(pattern)
     id , name = pattern.findall(select)[0]
+
+    mem.reset_gen()
+    mem.set_gen(int(id)-1)
 
     return {'id':id, "name":name}
 

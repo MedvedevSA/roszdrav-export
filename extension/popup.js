@@ -27,7 +27,7 @@ async function getCurrentTab() {
 
 function customScript() {
 
-  let url = 'https://localhost:8000/zdrav';
+  let url = 'https://192.168.1.193:8000/zdrav';
 
   fetch(url)  
     .then(  
