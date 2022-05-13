@@ -1,4 +1,3 @@
-#dev1
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import uvicorn
 
