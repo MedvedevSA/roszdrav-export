@@ -1,15 +1,6 @@
 {
-  "name": "STOMUS Export",
-  "version": "0.1",
-  "manifest_version": 3,
-  "background": {
-    "service_worker": "background.js"
-  },
-  "permissions": [
-    "scripting",
-    "activeTab"
-  ],
-  "action": {
-    "default_popup": "popup.html"
+    "manifest_version": 3,
+    "name": "CRXJS Vue Vite Example",
+    "version": "1.0.0",
+    "action": { "default_popup": "index.html" }
   }
-}
