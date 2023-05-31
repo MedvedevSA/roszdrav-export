@@ -1,5 +1,6 @@
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI 
+from fastapi import FastAPI
+from uploads_parser import Parser
 
 app = FastAPI()
 
@@ -14,4 +15,4 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return Parser().parse()
