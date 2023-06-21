@@ -15,7 +15,7 @@ class ParsingItem:
         self.body.append(row)
 
     def to_dict(self):
-        def parse_product(row: list):
+        def parse_product(row: list) -> dict:
             batch, manuf_date = None, None
             # >>(A001)<< от >>(02.05.2022)<<
             if match := re.search(r'([A-Z]?\d{1,3})\s*от\s*(\d{2}.\d{2}.\d{4})', row[1]):
@@ -47,20 +47,25 @@ class ParsingItem:
                 'count': row[4],
             }
         return {
-            'product': parse_product(self.product),
+            **parse_product(self.product),
             'docs_list': [parse_body(row) for row in self.body]
         } if self.product else {}
 
 
 class Parser:
     def __init__(self) -> None:
-        self.sheet = self.load_sheet()
+        self.file_path = None
+        self.sheet = None
+
+    def set_file_path(self, file_path):
+        self.file_path = file_path
+        self.load_sheet()
 
     def load_sheet(self):
         base_path = Path('./.data')
-        file = base_path / 'example.xlsx'
+        file = base_path / self.file_path
         workbook = load_workbook(filename = file)
-        return workbook.worksheets[0] if workbook.worksheets else None
+        self.sheet = workbook.worksheets[0] if workbook.worksheets else None
 
 
     def parse(self):
