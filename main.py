@@ -4,7 +4,7 @@ from os import walk
 from os.path import getctime
 
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, UploadFile, Body
 from uploads_parser import Parser
 
 data_path = Path('./.data')
@@ -40,6 +40,7 @@ async def upload_file(files: List[UploadFile]):
 
         with open(path_to_save,'wb') as write_file:
             write_file.write(contents)
+        parser.set_file_path(file.filename)
 
     return {"filenames": [file.filename for file in files]}
 
@@ -51,4 +52,13 @@ async def files():
 
     file_names.sort(key=lambda file: getctime(data_path / file), reverse=True)
     return file_names
+
+@app.get("/current_file/")
+async def get_current_file() -> str:
+    return  parser.file_path
+
+@app.post("/set_file/")
+async def set_file(file_name: str = Body()):
+    parser.set_file_path(file_name)
+    return 
 
