@@ -62,7 +62,7 @@ function setFormData(formData){
   document.getElementById("id_dt_manufacture").value = formData.manuf_date
   document.getElementById("id_model_series").value = formData.batch
   document.getElementById("id_model_part").value = formData.batch
-  document.getElementById("id_quantity").value = Object.values(formData.docs_list).map((el => el.count)).join(', ')
+  document.getElementById("id_quantity").value = Object.values(formData.docs_list).reduce((accum, el) => accum + el.count, 0)
   //
   document.getElementById("id_no").value = Object.values(formData.docs_list).map((el => el.doc_number)).join(', ')
   document.getElementById("id_dt").value = formData.docs_list[0].doc_date
