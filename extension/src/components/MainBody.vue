@@ -5,15 +5,18 @@
 
         <button
           type="button"
-          class="p-2 m-2 rounded-sm bg-blue-200 float-right"
+          class="p-2 m-2 rounded-sm bg-blue-300 float-right"
           @click="onClick"
         >
           Заполнить
         </button>
+
+        <div class="flex m-1 p-1">
+
         <button
           @click="count--"
           type="button"
-          class="ml-2 w-8 bg-cyan-100 rounded-l-sm border"
+          class="ml-2 w-8 bg-blue-200 rounded-l-sm border"
         >
           -
         </button>
@@ -24,20 +27,20 @@
         <input
           v-model="count"
           type="number"
-          @input="validateIndexInput"
           class="border border-1 w-12"
         />
 
         <button
           @click="count++"
           type="button"
-          class="mr-2 w-8 bg-cyan-100 rounded-r-sm border"
+          class="mr-2 w-8 bg-blue-200 rounded-r-sm border"
         >
           +
         </button>
+        </div>       
 
-        <div class="p-1 m-2 bg-blue-200 text-sm rounded-md">
-          <p>Всего записей {{ formData.length }}</p>
+        <div class="p-1 m-2 text-sm rounded-md border-black border">
+          <p><i>Всего записей:</i> {{ formData.length }}</p>
         </div>
       </div>
 
@@ -76,22 +79,24 @@ const targetSiteUrl = [
 
 const isTargetTab = ref(null);
 
-function validateIndexInput(evt) {
-  console.log(evt);
-  if (count.value < 0) {
-    count.value = 0;
-  } else if (count.value > formData.value.length) {
-    count.value = formData.value.length - 1;
-  }
-}
+// function validateCount(evt) {
+//   console.log(evt);
+//   if (count.value < 0) {
+//     count.value = 0;
+//   } else if (count.value > formData.value.length) {
+//     count.value = formData.value.length - 1;
+//   }
+// }
+
 watch(count, async (newVal, oldVal) => {
-  localStorage.setItem("count", newVal);
-  console.log(formData.value[count.value])
+  console.log(newVal, formData.value.length)
+  if (newVal < formData.value.length && newVal >= 0){
+    localStorage.setItem("count", newVal);
+  }
 });
 
 function restoreCount() {
   count.value = localStorage.getItem('count') || 0
-  // count.value = 0;
 }
 
 async function onClick() {
@@ -115,6 +120,7 @@ onMounted(async () => {
   formData.value = await getRawData();
   console.log(formData.value);
   restoreCount();
+  console.log('on custom')
 });
 </script>
 

@@ -54,16 +54,13 @@ async function uploadFile(evt) {
     .then(async function (response) {
       alert("Файл загружен");
       console.log(response);
-      console.log(await response.json());
     })
     .catch(function (error) {
       alert("Что то пошло не так");
       console.log(error);
     });
 
-  let result = await response.json();
-
-  alert(result.message);
+  window.location.reload();
 }
 
 
@@ -92,6 +89,10 @@ async function setCurrentFile() {
     .catch(async (error) => {
       console.log(error);
     });
+
+    localStorage.setItem("count", 0);
+
+    window.location.reload();
 }
 
 onMounted(async () => {
