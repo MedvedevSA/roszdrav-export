@@ -5,7 +5,7 @@
 
         <button
           type="button"
-          class="p-2 m-2 rounded-sm bg-blue-200"
+          class="p-2 m-2 rounded-sm bg-blue-200 float-right"
           @click="onClick"
         >
           Заполнить
