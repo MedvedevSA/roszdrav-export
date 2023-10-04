@@ -14,7 +14,7 @@
         <div class="flex m-1 p-1">
 
         <button
-          @click="count--"
+          @click="countIncr(-1)"
           type="button"
           class="ml-2 w-8 bg-blue-200 rounded-l-sm border"
         >
@@ -31,7 +31,7 @@
         />
 
         <button
-          @click="count++"
+          @click="countIncr(1)"
           type="button"
           class="mr-2 w-8 bg-blue-200 rounded-r-sm border"
         >
@@ -45,7 +45,7 @@
       </div>
 
 
-      <div v-for="value in Object.values(formData[count])" class="p-2">
+      <div v-for="value in Object.values(formData[count-1])" class="p-2">
         {{ value }}
       </div>
     </div>
@@ -87,22 +87,25 @@ const isTargetTab = ref(null);
 //     count.value = formData.value.length - 1;
 //   }
 // }
+function countIncr(incr) {
+  console.log(count)
 
-watch(count, async (newVal, oldVal) => {
-  console.log(newVal, formData.value.length)
-  if (newVal < formData.value.length && newVal >= 0){
-    localStorage.setItem("count", newVal);
-  }
-});
+  let newVal = count.value + incr
+  newVal = newVal <= formData.value.length ? newVal : count.value
+  newVal = newVal > 0 ? newVal : count.value
+
+  count.value = Number(newVal)
+  localStorage.setItem("count", count.value);
+}
 
 function restoreCount() {
-  count.value = localStorage.getItem('count') || 0
+  count.value = localStorage.getItem('count') || 1
 }
 
 async function onClick() {
   console.log();
   await getRawData();
-  await injectFormData(formData.value[count.value++]);
+  await injectFormData(formData.value[count.value - 1]);
 }
 
 async function getRawData() {

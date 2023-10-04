@@ -11,7 +11,7 @@ class ParsingItem:
     def set_product(self, key):
         self.product = key
 
-    def insert_nested(self, row):
+    def insert_chunk(self, row):
         self.body.append(row)
 
     def to_dict(self):
@@ -67,21 +67,20 @@ class Parser:
         workbook = load_workbook(filename = file)
         self.sheet = workbook.worksheets[0] if workbook.worksheets else None
 
-
     def parse(self):
-        parsing_item = ParsingItem()
-        rows = list()
+        item = ParsingItem()
+        items: list[ParsingItem] = []
 
         for row in self.sheet[self.sheet.dimensions]:
             if row[0].row >= 2:
                 row_val = [el.value for el in row]
                 if row_val[0] and row_val[1]:
-                    dict_item = parsing_item.to_dict()
-                    if dict_item:
-                        rows.append(dict_item)
-
-                    parsing_item = ParsingItem()
-                    parsing_item.set_product(row_val)
+                    items.append(item)
+                    item = ParsingItem()
+                    item.set_product(row_val)
                 else:
-                    parsing_item.insert_nested(row_val)
-        return rows
+                    item.insert_chunk(row_val)
+        items.append(item)
+
+        rows: list[dict] = [item.to_dict() for item in items]
+        return [el for el in rows if el]
