@@ -68,7 +68,7 @@
 import { currTabUrl, injectFormData } from "@/scripts/inject.js";
 import { ref, onMounted, watch } from "vue";
 
-const count = ref(0);
+const count = ref(1);
 const formData = ref([]);
 
 const targetSiteUrl = [
@@ -100,6 +100,9 @@ function countIncr(incr) {
 
 function restoreCount() {
   count.value = localStorage.getItem('count') || 1
+  count.value = count.value <= formData.value.length ? count.value : 1
+  count.value = count.value > 0 ? count.value : 1
+  localStorage.setItem("count", count.value);
 }
 
 async function onClick() {

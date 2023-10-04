@@ -90,7 +90,7 @@ async function setCurrentFile() {
       console.log(error);
     });
 
-    localStorage.setItem("count", 0);
+    localStorage.setItem("count", 1);
 
     window.location.reload();
 }
